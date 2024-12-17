@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Oswald:wght@200..700&family=Protest+Revolution&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Protest+Revolution&display=swap" rel="stylesheet">
+    <style>
+       
+       
+
+        .protest-revolution-regular {
+            font-family: "Protest Revolution", sans-serif;
+            font-weight: 500;
+            font-style: normal;
+        }
+
+        body {
+            background-image: url(./bg-masthead.jpg);
+            text-align: center;
+        }
+
+        .center-div {
+            height: 400px;
+            width: 500px;
+            background-color: rgba(25, 21, 21, 0.2);
+            border-radius: 25px;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 60px;
+            
+        }
+
+        i {
+            font-size: 50px;
+            color: rgb(254, 253, 253);
+            margin-top: 10px;
+        }
+
+        table {
+            padding: 10px;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        th, td {
+            text-align: start;
+           
+        }
+
+        /* Responsive design */
+        
+        @media (max-width: 576px) {
+            .center-div {
+                width: 95%;
+                height: auto;
+                padding: 10px;
+                color: rgb(254, 253, 253);
+            }
+
+            h1 {
+                font-size: 30px;
+                color: rgb(254, 253, 253);
+            }
+
+            i {
+                font-size: 20px;
+                color: rgb(254, 253, 253);
+            }
+
+            input#userinput {
+                width: 100%;
+                font-size: 14px;
+                
+            }
+
+            button {
+                width: 100%;
+                font-size: 14px;
+            }
+
+            table th, table td {
+                font-size: 14px;
+                padding: 5px;
+                color: rgb(254, 253, 253);
+            }
+            #t{
+                color: white;
+            }
+            #ping{
+                color: white;
+            }
+        }
+    </style>
+</head>
+<body style="background-image: url(./image/bg-masthead.jpg);">
+    <h1 style="color: rgb(199, 3, 3);" class="protest-revolution-regular">WEATHER FORECAST</h1>
+    <h5>Your Personal Weather Assistant</h5>
+    <br><br><br>
+    <input id="userinput" type="text" placeholder="Enter a city" style="height: 50px; width: 400px; border-radius: 25px; ">
+    <button style="height: 50px; width: 100px; border-radius: 25px; background-color: black; color: white;"onclick="check()">Search</button>
+    <br><br><br>
+    <div id="output"></div>
+    
+</body>
+<script>
+
+
+const check=async()=>{
+   try {
+       if (userinput.value!="") {
+        
+      const d= await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${userinput.value}&appid=5b4bee0ba241d092159faf007e166080`)
+      const da= await d.json()
+      console.log(da);
+      if (da.cod==404) {
+           alert("PLEASE ENTER A VALID CITY")
+          }
+          const today = new Date();
+
+
+const dayNames = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+const day = dayNames[today.getDay()];
+
+const monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+const month=monthNames[today.getMonth()]
+const date = today.getDate();
+
+
+
+
+const now = new Date();
+
+let hours = now.getHours();
+let minutes = now.getMinutes();
+let seconds = now.getSeconds();
+
+
+
+
+const amOrPm = hours >= 12 ? "PM" : "AM";
+hours = hours % 12 || 12;
+
+
+
+
+
+    output.innerHTML=`<div class="center-div">
+        <div style="text-align: start; margin-left: 20px; display: flex;">
+            <h1>${da["main"].temp}<sup>o</sup></h1>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <i class="fa-solid fa-cloud"></i>
+        </div>
+        <div style="display: flex;">
+            <div style="text-align: start; margin-left: 20px; margin-top: -10px;">
+                <h3>${day}/${month}/${date}</h3>
+            </div>
+        </div>
+        <div >
+            <i class="fa-solid fa-location-dot" style="font-size: 30px; position: relative; color: rgb(246, 5, 5); ">&nbsp;<h3 style="font-family: 'Dancing Script', cursive; font-size:70px">${da.name},${da["sys"].country}</h3>
+            </i>
+        </div>
+        <div>
+            <table style="margin-left: 50px;">
+                <tr>
+                    <th>HUMIDITY</th>
+                    <td>${da["main"].humidity}</td>
+                </tr>
+                <tr>
+                    <th>WEATHER</th>
+                    <td>${da.weather[0].description}</td>
+                </tr>
+                <tr>
+                    <th>FEELS LIKE</th>
+                    <td>${da["main"].feels_like}</td>
+                </tr>
+                <tr>
+                    <th>WIND</th>
+                    <td>${da["wind"].speed}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div id="t">${hours}:${minutes}:${seconds} ${amOrPm}</div>`
+
+}
+      
+    } catch (err) {
+       console.log(err);
+       
+    }
+ 
+ 
+ 
+ 
+   }
+
+
+
+
+
+
+
+</script>
+</html>
